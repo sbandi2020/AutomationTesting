@@ -59,6 +59,8 @@ public class AmazonFlipkartTestCase {
 		WebDriverManager.chromedriver().version(prop.getProperty("chromeDriverVersion")).setup();
 		ChromeOptions options = new ChromeOptions();
 		driver = new ChromeDriver(options); 
+		//System.setProperty("webdriver.chrome.driver","c:\\java\\chromedriver.exe");   
+	    //driver = (WebDriver) new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 	}
