@@ -25,8 +25,8 @@ import pages.FlipkartHomePage;
 public class AmazonFlipkartTestCase {
 
 	WebDriver driver;
-	AmazonHomePage objAmazonHomePage;
-	FlipkartHomePage objFlipkartHomePage;
+	AmazonHomePage amazonHomePage;
+	FlipkartHomePage flipkartHomePage;
 	String driverPath;
 	WebElement elements;
 	Properties prop;
@@ -73,35 +73,38 @@ public class AmazonFlipkartTestCase {
 	 *search for product and  select the matching product once list appears return the price of the selected product
 	 * 
 	 */
-	public int valueOfProductFromAmazon() throws IOException {
+	@Test(priority=1)
+	public void getProductFromAmazon() throws IOException {
 
 		setup();
 		// creating object for amazon page
-		objAmazonHomePage = new AmazonHomePage(driver);
+		amazonHomePage = new AmazonHomePage(driver);
 
 		// Login home page for amazon
-		String homePageDashboardUserName = objAmazonHomePage.getHomePageUserName();
+		String homePageDashboardUserName = amazonHomePage.getHomePageUserName();
 		driver.get(homePageDashboardUserName);
 		driver.manage().window().maximize();
-		assertTrue(driver.findElement(By.xpath(objAmazonHomePage.getamazonLoginTest())).isDisplayed(),"Amazon page logged in successfully");
+		assertTrue(driver.findElement(By.xpath(amazonHomePage.getamazonLoginTest())).isDisplayed(),"Amazon page logged in successfully");
 		LOGGER.info("Amazon page logged in successfully");
 		
-		String searchPage = objAmazonHomePage.getSearchPage();
+		String searchPage = amazonHomePage.getSearchPage();
 		// searching data product in amazon
 		driver.findElement(By.id((String) prop.get("searchAmazontextbox"))).sendKeys((String) prop.get("product"));
 		driver.findElement(By.xpath(searchPage)).click();
 
 		// Product value getting from amazon
-		String valueOfProductFromAmazonValue = driver.findElement(By.xpath(objAmazonHomePage.getCostValuefromAmazon()))
+		String valueOfProductFromAmazonValue = driver.findElement(By.xpath(amazonHomePage.getCostValuefromAmazon()))
 				.getText();
 		LOGGER.info("Found "+(String) prop.get("product") +" successfully in Amazon");
 		//Assertion for Product found
-		assertTrue( driver.findElement(By.xpath(objAmazonHomePage.getCostValuefromAmazon())).isDisplayed());
+		assertTrue( driver.findElement(By.xpath(amazonHomePage.getCostValuefromAmazon())).isDisplayed());
 		String[] split = valueOfProductFromAmazonValue.split(",");
 		String valueOfProductFromAmazonSplit = split[0] + "" + split[1];
 		driver.close();
+		LOGGER.info("**********Value of product:" + valueOfProductFromAmazonSplit);
 		LOGGER.info("Amazon page logged out");
-		return Integer.parseInt(valueOfProductFromAmazonSplit);
+		//return Integer.parseInt(valueOfProductFromAmazonSplit);
+		
 	}
 
 	/**
@@ -111,41 +114,50 @@ public class AmazonFlipkartTestCase {
 	 *search for product and  select the matching iPhone once list appears return the price of the selected iPhone
 	 * 
 	 */
-	public int valueOfProductFromFlipkart() throws IOException {
+	@Test(priority=2)
+	public void getProductFromFlipkart() throws IOException {
 
 		setup();
-		objFlipkartHomePage = new FlipkartHomePage(driver);
+		flipkartHomePage = new FlipkartHomePage(driver);
 		// Login home page for flipkart
-		driver.get(objFlipkartHomePage.homePageUserName());
+		driver.get(flipkartHomePage.homePageUserName());
 		driver.manage().window().maximize();
-		assertTrue(driver.findElement(By.xpath(objFlipkartHomePage.getflipkartLoginTest())).isDisplayed(),"Flipkart page loggedin successfully");
+		assertTrue(driver.findElement(By.xpath(flipkartHomePage.getflipkartLoginTest())).isDisplayed(),"Flipkart page loggedin successfully");
 		LOGGER.info("Flipkart page logged in successfully");
 		
 		//Default login popup clicking for search product.
 		
-		if (driver.findElement(By.xpath(objFlipkartHomePage.getLoginPopUp())).isDisplayed()) {
-			driver.findElement(By.xpath(objFlipkartHomePage.getLoginPopUp())).click();
+		if (driver.findElement(By.xpath(flipkartHomePage.getLoginPopUp())).isDisplayed()) {
+			driver.findElement(By.xpath(flipkartHomePage.getLoginPopUp())).click();
 		}
 		// searching data product in flipkart
-		driver.findElement(By.xpath(objFlipkartHomePage.getSearchPage())).sendKeys((String) prop.get("product"));
-		driver.findElement(By.xpath(objFlipkartHomePage.getSubmitButton())).click();
+		driver.findElement(By.xpath(flipkartHomePage.getSearchPage())).sendKeys((String) prop.get("product"));
+		driver.findElement(By.xpath(flipkartHomePage.getSubmitButton())).click();
 
+		try {
+		Thread.sleep(5000);
+		}
+		catch(Exception ex) {
+			
+		};
 		String valueOfProductFromFlipkart = driver
-				.findElement(By.xpath(objFlipkartHomePage.getValueOfProductFromFlipkart())).getText();
+				.findElement(By.xpath(flipkartHomePage.getValueOfProductFromFlipkart())).getText();
 		
 		//Assertion for Product found
 		assertTrue(driver
-				.findElement(By.xpath(objFlipkartHomePage.getValueOfProductFromFlipkart())).isDisplayed());
+				.findElement(By.xpath(flipkartHomePage.getValueOfProductFromFlipkart())).isDisplayed());
 		LOGGER.info("Found "+(String) prop.get("product") +" successfully in Flipkart");
 		
 		String[] split1 = valueOfProductFromFlipkart.split((String) prop.get("rupeevalue"));
 		String valueOfProductFromFlipkartSplit = split1[1] + "" + split1[2];
 		driver.close();
 		LOGGER.info("FlipKart page logged out");
-		return Integer.parseInt(valueOfProductFromFlipkartSplit);
+		//return Integer.parseInt(valueOfProductFromFlipkartSplit);
 
 	}
 
+	
+	
 	/**
 	 * 
 	 * This test case will login in https://www.amazon.in/
@@ -162,7 +174,8 @@ public class AmazonFlipkartTestCase {
 	 * lesser value for the iPhone and print the final result on the console
 	 * 
 	 */
-	@Test(priority = 0)
+		
+/*	@Test(priority = 0)
 	public void testHomePageAppearCorrect() throws IOException {
 
 		// login to amazon and get the price value
@@ -193,7 +206,7 @@ public class AmazonFlipkartTestCase {
 			LOGGER.info("Flipkart cost: " + valueOfProductFromFlipkart);
 		}
 		LOGGER.info("********************************************************************************");
-	}
+	}  */
 
 	@AfterTest
 	public void afterTestMethod() {
