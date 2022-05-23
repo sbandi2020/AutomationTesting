@@ -69,23 +69,23 @@ public class AmazonFlipkartTestCase {
 		amazonHomePage = new AmazonHomePage(driver);
 
 		// Login home page for amazon
-		String homePageDashboardUserName = amazonHomePage.getHomePageUserName();
-		driver.get(homePageDashboardUserName);
+		String homePageUrl = amazonHomePage.getHomePage();
+		driver.get(homePageUrl);
 		driver.manage().window().maximize();
 		assertTrue(driver.findElement(By.xpath(amazonHomePage.getamazonLoginTest())).isDisplayed(),"Amazon page logged in successfully");
 		LOGGER.info("Amazon page logged in successfully");
 		
 		String searchPage = amazonHomePage.getSearchPage();
 		// searching data product in amazon
-		driver.findElement(By.id((String) prop.get("searchAmazontextbox"))).sendKeys((String) prop.get("product"));
+		driver.findElement(By.id((String) prop.get("amazonSearchbox"))).sendKeys((String) prop.get("product"));
 		driver.findElement(By.xpath(searchPage)).click();
 
 		// Product value getting from amazon
-		String valueOfProductFromAmazonValue = driver.findElement(By.xpath(amazonHomePage.getCostValuefromAmazon()))
+		String valueOfProductFromAmazonValue = driver.findElement(By.xpath(amazonHomePage.getProductPrice()))
 				.getText();
 		LOGGER.info("Found "+(String) prop.get("product") +" successfully in Amazon");
 		//Assertion for Product found
-		assertTrue( driver.findElement(By.xpath(amazonHomePage.getCostValuefromAmazon())).isDisplayed());
+		assertTrue( driver.findElement(By.xpath(amazonHomePage.getProductPrice())).isDisplayed());
 		String[] split = valueOfProductFromAmazonValue.split(",");
 		String valueOfProductFromAmazonSplit = split[0] + "" + split[1];
 		driver.close();
@@ -131,12 +131,11 @@ public class AmazonFlipkartTestCase {
 		catch(Exception ex) {
 			
 		};
-		String valueOfProductFromFlipkart = driver
-				.findElement(By.xpath(flipkartHomePage.getValueOfProductFromFlipkart())).getText();
+		String valueOfProductFromFlipkart = driver.findElement(By.xpath(flipkartHomePage.getProductPrice())).getText();
 		
 		//Assertion for Product found
 		assertTrue(driver
-				.findElement(By.xpath(flipkartHomePage.getValueOfProductFromFlipkart())).isDisplayed());
+				.findElement(By.xpath(flipkartHomePage.getProductPrice())).isDisplayed());
 		LOGGER.info("Found "+(String) prop.get("product") +" successfully in Flipkart");
 		
 		String[] split1 = valueOfProductFromFlipkart.split((String) prop.get("rupeevalue"));

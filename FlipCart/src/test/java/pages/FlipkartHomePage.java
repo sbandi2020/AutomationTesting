@@ -8,8 +8,8 @@ public class FlipkartHomePage extends HomePage{
 
 	WebDriver driver;
 
-	public String getValueOfProductFromFlipkart() {
-		return (String) configData.get("valueOfProductFromFlipkart");
+	public String getProductPrice() {
+		return (String) configData.get("productPriceFlipkart");
 	}
 
 	public String getSearchBar() {

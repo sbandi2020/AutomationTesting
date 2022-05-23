@@ -21,7 +21,7 @@ public class AmazonHomePage extends HomePage{
 		return driver;
 	}
 
-	public String getHomePageUserName() {
+	public String getHomePage() {
 		return (String) configData.get("homePageAmazon") ;
 	}
 
@@ -29,8 +29,8 @@ public class AmazonHomePage extends HomePage{
 		return (String) configData.get("searchPage");
 	}
 
-	public String getCostValuefromAmazon() {
-		return (String) configData.get("costValuefromAmazon");
+	public String getProductPrice() {
+		return (String) configData.get("productPriceAmazon");
 	}
 	
 	public String getamazonLoginTest() {
