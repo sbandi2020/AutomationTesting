@@ -9,16 +9,16 @@ public class FlipkartHomePage extends HomePage{
 	WebDriver driver;
 
 	public String getValueOfProductFromFlipkart() {
-		return (String) propdata.get("valueOfProductFromFlipkart");
+		return (String) configData.get("valueOfProductFromFlipkart");
 	}
 
 	public String getSearchBar() {
-		return (String) propdata.get("searchBarFlipkart");
+		return (String) configData.get("searchBarFlipkart");
 	}
 
 
 	public String getSubmitButton() {
-		return (String) propdata.get("submitButtonFlipkart");
+		return (String) configData.get("submitButtonFlipkart");
 	}
 
 	public WebDriver getDriver() {
@@ -26,15 +26,15 @@ public class FlipkartHomePage extends HomePage{
 	}
 
 	public String getSearchPage() {
-		return (String) propdata.get("searchPageFlipkart");
+		return (String) configData.get("searchPageFlipkart");
 	}
 
 	public String getHomePageUserName() {
-		return (String) propdata.get("homePageFlipkart");
+		return (String) configData.get("homePageFlipkart");
 	}
 
 	public String getLoginPopUp() {
-		return (String) propdata.get("loginPopUpFlipkart");
+		return (String) configData.get("loginPopUpFlipkart");
 	}
 
 	public FlipkartHomePage(WebDriver driver) throws IOException {
@@ -45,13 +45,13 @@ public class FlipkartHomePage extends HomePage{
 
 	public String homePageUserName() {
 
-		return (String) propdata.get("homePageFlipkart");
+		return (String) configData.get("homePageFlipkart");
 
 	}
 	
 	public String getflipkartLoginTest() {
 
-		return (String) propdata.get("flipkartLoginTest");
+		return (String) configData.get("flipkartLoginTest");
 
 	}
 	

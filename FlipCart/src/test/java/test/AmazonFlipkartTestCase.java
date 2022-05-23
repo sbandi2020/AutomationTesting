@@ -1,5 +1,7 @@
 package test;
 
+import test.DriverHelper;
+
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -32,24 +34,7 @@ public class AmazonFlipkartTestCase {
 	Properties prop;
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-	@BeforeTest
-	public void beforeTestMethod() throws IOException {
-
-		try (InputStream input = AmazonFlipkartTestCase.class.getClassLoader()
-				.getResourceAsStream("config.properties")) {
-			prop = new Properties();
-			if (input == null) {
-				System.out.println("Sorry, unable to find config.properties");
-				return;
-			}
-			// load a properties file from class path, inside static method
-			prop.load(input);
-			// get the property value and print it out
-			driverPath = prop.getProperty("driverPath");
-		}
-
-	}
-	
+		
 	/**
 	 * 
 	 *	Chrome browser instantiating from maven dependency
@@ -76,7 +61,10 @@ public class AmazonFlipkartTestCase {
 	@Test(priority=1)
 	public void getProductFromAmazon() throws IOException {
 
-		setup();
+		DriverHelper helper = new DriverHelper();
+		Properties prop = helper.getConfigProperties();
+		driver = helper.getChromeDriver();
+		
 		// creating object for amazon page
 		amazonHomePage = new AmazonHomePage(driver);
 
@@ -117,7 +105,10 @@ public class AmazonFlipkartTestCase {
 	@Test(priority=2)
 	public void getProductFromFlipkart() throws IOException {
 
-		setup();
+		DriverHelper helper = new DriverHelper();
+		Properties prop = helper.getConfigProperties();
+		driver = helper.getChromeDriver();
+		
 		flipkartHomePage = new FlipkartHomePage(driver);
 		// Login home page for flipkart
 		driver.get(flipkartHomePage.homePageUserName());

@@ -1,14 +1,16 @@
 package pages;
 
 import java.io.IOException;
+import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
+
+import test.DriverHelper;
 
 public class AmazonHomePage extends HomePage{
 
 	WebDriver driver;
-
-
+	
 	public AmazonHomePage(WebDriver driver)throws IOException  {
 		// TODO Auto-generated constructor stub
 		this.driver = driver;
@@ -20,19 +22,19 @@ public class AmazonHomePage extends HomePage{
 	}
 
 	public String getHomePageUserName() {
-		return (String) propdata.get("homePageAmazon") ;
+		return (String) configData.get("homePageAmazon") ;
 	}
 
 	public String getSearchPage() {
-		return (String) propdata.get("searchPage");
+		return (String) configData.get("searchPage");
 	}
 
 	public String getCostValuefromAmazon() {
-		return (String) propdata.get("costValuefromAmazon");
+		return (String) configData.get("costValuefromAmazon");
 	}
 	
 	public String getamazonLoginTest() {
-		return (String) propdata.get("amazonLoginTest");
+		return (String) configData.get("amazonLoginTest");
 	}
 
 }
