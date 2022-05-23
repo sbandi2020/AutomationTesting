@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import test.AmazonFlipkartTestCase;
+import test.AmazonTestCases;
 import test.DriverHelper;
 
 public class HomePage {

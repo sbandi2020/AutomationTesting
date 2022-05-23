@@ -24,7 +24,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import pages.AmazonHomePage;
 import pages.FlipkartHomePage;
 
-public class AmazonFlipkartTestCase {
+public class AmazonTestCases {
 
 	WebDriver driver;
 	AmazonHomePage amazonHomePage;
@@ -33,24 +33,15 @@ public class AmazonFlipkartTestCase {
 	WebElement elements;
 	Properties prop;
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
-		
-	/**
-	 * 
-	 *	Chrome browser instantiating from maven dependency
-	 */
-
-	public void setup() {
-		WebDriverManager.chromedriver().version(prop.getProperty("chromeDriverVersion")).setup();
-		ChromeOptions options = new ChromeOptions();
-		driver = new ChromeDriver(options); 
-		//System.setProperty("webdriver.chrome.driver","c:\\java\\chromedriver.exe");   
-	    //driver = (WebDriver) new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
+	
+	
+	@BeforeTest
+	public void createResources() {
+		DriverHelper helper = new DriverHelper();
+		prop = helper.getConfigProperties();
+		driver = helper.getChromeDriver(); 
 	}
 
-	
 	/**
 	 * 
 	 * Login in https://www.amazon.in/
@@ -60,10 +51,6 @@ public class AmazonFlipkartTestCase {
 	 */
 	@Test(priority=1)
 	public void getProductFromAmazon() throws IOException {
-
-		DriverHelper helper = new DriverHelper();
-		Properties prop = helper.getConfigProperties();
-		driver = helper.getChromeDriver();
 		
 		// creating object for amazon page
 		amazonHomePage = new AmazonHomePage(driver);
@@ -95,59 +82,6 @@ public class AmazonFlipkartTestCase {
 		
 	}
 
-	/**
-	 * 
-	 * Login in https://www.flipkart.com/ 
-	 * 
-	 *search for product and  select the matching iPhone once list appears return the price of the selected iPhone
-	 * 
-	 */
-	@Test(priority=2)
-	public void getProductFromFlipkart() throws IOException {
-
-		DriverHelper helper = new DriverHelper();
-		Properties prop = helper.getConfigProperties();
-		driver = helper.getChromeDriver();
-		
-		flipkartHomePage = new FlipkartHomePage(driver);
-		// Login home page for flipkart
-		driver.get(flipkartHomePage.homePageUserName());
-		driver.manage().window().maximize();
-		assertTrue(driver.findElement(By.xpath(flipkartHomePage.getflipkartLoginTest())).isDisplayed(),"Flipkart page loggedin successfully");
-		LOGGER.info("Flipkart page logged in successfully");
-		
-		//Default login popup clicking for search product.
-		
-		if (driver.findElement(By.xpath(flipkartHomePage.getLoginPopUp())).isDisplayed()) {
-			driver.findElement(By.xpath(flipkartHomePage.getLoginPopUp())).click();
-		}
-		// searching data product in flipkart
-		driver.findElement(By.xpath(flipkartHomePage.getSearchPage())).sendKeys((String) prop.get("product"));
-		driver.findElement(By.xpath(flipkartHomePage.getSubmitButton())).click();
-
-		try {
-		Thread.sleep(5000);
-		}
-		catch(Exception ex) {
-			
-		};
-		String valueOfProductFromFlipkart = driver.findElement(By.xpath(flipkartHomePage.getProductPrice())).getText();
-		
-		//Assertion for Product found
-		assertTrue(driver
-				.findElement(By.xpath(flipkartHomePage.getProductPrice())).isDisplayed());
-		LOGGER.info("Found "+(String) prop.get("product") +" successfully in Flipkart");
-		
-		String[] split1 = valueOfProductFromFlipkart.split((String) prop.get("rupeevalue"));
-		String valueOfProductFromFlipkartSplit = split1[1] + "" + split1[2];
-		driver.close();
-		LOGGER.info("FlipKart page logged out");
-		//return Integer.parseInt(valueOfProductFromFlipkartSplit);
-
-	}
-
-	
-	
 	/**
 	 * 
 	 * This test case will login in https://www.amazon.in/
@@ -199,14 +133,8 @@ public class AmazonFlipkartTestCase {
 	}  */
 
 	@AfterTest
-	public void afterTestMethod() {
+	public void closeResources() {
 		driver.quit();
 	}
-	//comments here
-	//comments here
-	//comments here
-	//comments here
-	//comments here
-
-
+	
 }
