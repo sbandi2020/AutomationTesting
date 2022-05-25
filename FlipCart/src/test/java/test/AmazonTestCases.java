@@ -28,7 +28,6 @@ public class AmazonTestCases {
 
 	WebDriver driver;
 	AmazonHomePage amazonHomePage;
-	FlipkartHomePage flipkartHomePage;
 	String driverPath;
 	WebElement elements;
 	Properties prop;

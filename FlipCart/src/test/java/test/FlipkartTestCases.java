@@ -27,7 +27,6 @@ import pages.FlipkartHomePage;
 public class FlipkartTestCases {
 
 	WebDriver driver;
-	AmazonHomePage amazonHomePage;
 	FlipkartHomePage flipkartHomePage;
 	String driverPath;
 	WebElement elements;
